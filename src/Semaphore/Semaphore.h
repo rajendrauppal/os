@@ -29,7 +29,25 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 class Semaphore
 {
 public:
+    static void get()
+    {
+        ++_count;
+    }
+
+    static void put()
+    {
+        while ( !(_count > 0) )
+            ;
+        --_count;
+    }
+
 private:
+    static size_t _count;
+
+    Semaphore();
+    Semaphore(const Semaphore&);
+    Semaphore& operator = (const Semaphore&);
+    ~Semaphore();
 };
 
 
