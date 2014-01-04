@@ -22,38 +22,56 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#ifndef Semaphore_INCLUDED
-#define Semaphore_INCLUDED
+#ifndef Thread_INCLUDED
+#define Thread_INCLUDED
 
 
-class Semaphore
+class Thread
 {
 public:
-    static void get();
-    static void put();
+    typedef enum Priority
+    {
+        LOW,
+        NORMAL,
+        HIGH
+    };
+
+    typedef enum State
+    {
+        WORKING,
+        RESUMED,
+        SUSPENDED,
+        KILLED,
+        PAUSED,
+        TERMINATED
+    };
+
+    Thread();
+    ~Thread();
+
+    void create();
+
+    void createEx();
+    
+    void pause();
+    
+    void resume();
+    
+    void suspend();
+    
+    void terminate();
+    
+    void kill();
 
 private:
-    static size_t _count;
+    size_t _id;
+    size_t _priority;
+    State _state;
+    size_t _count;
 
-    Semaphore();
-    Semaphore(const Semaphore&);
-    Semaphore& operator = (const Semaphore&);
-    ~Semaphore();
+    Thread(const Thread&);
+    Thread& operator = (const Thread&);
 };
 
 
-void Semaphore::get()
-{
-    ++_count;
-}
-
-
-void Semaphore::put()
-{
-    while ( !(_count > 0) )
-        ;
-    --_count;
-}
-
-
-#endif // Semaphore_INCLUDED
+#endif // Thread_INCLUDED
