@@ -22,27 +22,60 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#ifndef Semaphore_INCLUDED
-#define Semaphore_INCLUDED
-
-
 #include "SemaphoreImpl.h"
 
 
-class Semaphore: private SemaphoreImpl
+SemaphoreImpl::SemaphoreImpl(int n, int max)
 {
-public:
-    static void get();
-    static void put();
-
-private:
-    static size_t _count;
-
-    Semaphore();
-    Semaphore(const Semaphore&);
-    Semaphore& operator = (const Semaphore&);
-    ~Semaphore();
-};
+    if ( (n >= 0) && (max > 0) && (n <= max) ) {
+        _sem = CreateSemaphoreW( NULL, n, max, NULL );
+        if ( !_sem )
+            ; // throw exception
+    }
+    else 
+        ; // throw exception
+}
 
 
-#endif // Semaphore_INCLUDED
+SemaphoreImpl::~SemaphoreImpl()
+{
+    CloseHandle( _sem );
+}
+
+
+void SemaphoreImpl::getImpl()
+{
+    DWORD dw = WaitForSingleObject( _sem, INFINITE );
+    switch (dw)
+    {
+    case WAIT_OBJECT_0:
+        return;
+    default:
+        ; // throw exception
+    }
+}
+
+
+bool SemaphoreImpl::getImpl(long milliseconds)
+{
+    DWORD dw = WaitForSingleObject( _sem, milliseconds + 1 );
+    switch (dw)
+    {
+    case WAIT_TIMEOUT:
+        return false;
+    case WAIT_OBJECT_0:
+        return true;
+    default:
+        ; // throw exception
+    }
+}
+
+
+void SemaphoreImpl::putImpl()
+{
+    if ( !ReleaseSemaphore( _sem, 1, NULL ) )
+        ; // throw exception
+}
+
+
+// ~EOF

@@ -24,7 +24,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <iostream>
 #include "Semaphore.h"
-#include <process.h>
+#include "Thread.h"
 
 
 using std::cout;
@@ -37,6 +37,7 @@ using std::endl;
 
 void Test_Semaphore()
 {
+    Semaphore::get();
 }
 
 

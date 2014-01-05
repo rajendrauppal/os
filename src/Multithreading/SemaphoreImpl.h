@@ -22,27 +22,26 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#ifndef Semaphore_INCLUDED
-#define Semaphore_INCLUDED
+#ifndef SemaphoreImpl_INCLUDED
+#define SemaphoreImpl_INCLUDED
 
 
-#include "SemaphoreImpl.h"
+#include <windows.h>
 
 
-class Semaphore: private SemaphoreImpl
+class SemaphoreImpl
 {
-public:
-    static void get();
-    static void put();
+protected:
+    SemaphoreImpl(int n, int max);
+    ~SemaphoreImpl();
+
+    void getImpl();
+    bool getImpl(long milliseconds);
+    void putImpl();    
 
 private:
-    static size_t _count;
-
-    Semaphore();
-    Semaphore(const Semaphore&);
-    Semaphore& operator = (const Semaphore&);
-    ~Semaphore();
+    HANDLE _sem;
 };
 
 
-#endif // Semaphore_INCLUDED
+#endif // SemaphoreImpl_INCLUDED
