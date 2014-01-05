@@ -22,30 +22,47 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 
-#ifndef Semaphore_INCLUDED
-#define Semaphore_INCLUDED
+#include "Semaphore.h"
 
 
-#include "SemaphoreImpl.h"
-
-
-class Semaphore: private SemaphoreImpl
+Semaphore::Semaphore(int n): SemaphoreImpl(n, n)
 {
-public:
-    Semaphore(int n);
-    Semaphore(int n, int max);
-    ~Semaphore();
-
-    void get();
-    void get(long milliseonds);
-    bool tryGet(long milliseconds);
-    void put();
-
-private:
-    Semaphore();
-    Semaphore(const Semaphore&);
-    Semaphore& operator = (const Semaphore&);
-};
+}
 
 
-#endif // Semaphore_INCLUDED
+Semaphore::Semaphore(int n, int max): SemaphoreImpl(n, max)
+{
+}
+
+
+Semaphore::~Semaphore()
+{
+}
+
+
+void Semaphore::get()
+{
+    getImpl();
+}
+
+
+void Semaphore::get(long milliseonds)
+{
+    if ( !getImpl( milliseonds ) )
+        ; // throw TimeOutException
+}
+
+
+bool Semaphore::tryGet(long milliseconds)
+{
+    return getImpl( milliseconds );
+}
+
+
+void Semaphore::put()
+{
+    putImpl();
+}
+
+
+// ~EOF
