@@ -37,7 +37,7 @@ using std::endl;
 
 void Test_Semaphore()
 {
-    Semaphore::get();
+    Semaphore sem(5, 10000);
 }
 
 
