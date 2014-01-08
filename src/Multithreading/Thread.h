@@ -49,7 +49,7 @@ public:
     Thread();
     ~Thread();
 
-    void create();
+    /*void create();
 
     void createEx();
     
@@ -61,7 +61,7 @@ public:
     
     void terminate();
     
-    void kill();
+    void kill();*/
 
 private:
     size_t   _id;
