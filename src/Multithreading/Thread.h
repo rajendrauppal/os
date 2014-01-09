@@ -49,20 +49,6 @@ public:
     Thread();
     ~Thread();
 
-    void create();
-
-    void createEx();
-    
-    void pause();
-    
-    void resume();
-    
-    void suspend();
-    
-    void terminate();
-    
-    void kill();
-
 private:
     size_t   _id;
     Priority _priority;
