@@ -50,11 +50,6 @@ public:
     ~Thread();
 
 private:
-    size_t   _id;
-    Priority _priority;
-    State    _state;
-    size_t   _count;
-
     Thread(const Thread&);
     Thread& operator = (const Thread&);
 };
